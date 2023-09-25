@@ -2,13 +2,9 @@
 #include <cmath>
 #include <vector>
 #include "automation.hpp"
-#include "drawBoard.hpp"
-#include "introduction.hpp"
+#include "boards.hpp"
 
 int main() {
-    /*
-    use multidimensional array to show the amount of rows. Will probably have to use dfs to check num of mines near any specific point
-    */
     int rows = intro();
     int num_rows = pow(rows, 2);
 
@@ -21,9 +17,12 @@ int main() {
     }
 
     // Start game
+    int points = 0;
+
     while( !isDead(spaces, spaces_mines) ) {
-        spaces[8] = 'X';
-        drawBoard(spaces, rows);
+        createMines(spaces_mines, rows, num_rows);
+        drawBoard(spaces, rows, num_rows);
+        isDead(spaces, spaces_mines);
         break;
     }
 }
