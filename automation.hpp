@@ -22,8 +22,37 @@ int intro() {
 }
 
 
-bool dfs( std::vector<char> spaces_mines, int user_move, int rows ) {
-    if (user_move % rows == 0) {
+bool searchAmountOfMines( std::vector<char> spaces_mines, int user_move, int rows, int num_rows ) {
+    int user_move_p1 = user_move + 1;
+
+    // Check corners
+    if      ( user_move_p1 == rows ) { // Check top right corner
+        std::cout << "hi1\n";
+    }
+    else if ( user_move_p1 == num_rows ) { // Check bottom right corner
+        std::cout << "hi2\n";
+    }
+    else if ( user_move_p1 == (rows / rows) ) { // Check top left corner
+        std::cout << "hi3\n";
+    }
+    else if ( (user_move_p1 - 1) == (num_rows - rows) ) { // Check bottom left corner
+        std::cout << "hi4\n";
+    } 
+    // Start checking for edges
+    else if ( user_move_p1 % rows == 0 ) { // Check if it is on the right most edge
+        std::cout << "hi5\n";
+    }
+    else if ( (user_move_p1 - 1) % rows == 0 ) { // Check if it is on the left most edge
+        std::cout << "hi6\n";
+    }
+    else if ( user_move_p1 <= rows ) { // Check if it is on the top most edge
+        std::cout << "hi7\n";
+    }
+    else if (user_move_p1 >= (num_rows - rows) ) { // Check if it is on the bottom most edge
+        std::cout << "hi8\n";
+    }
+    else { // Anything that's not on the edge
+        std::cout << "hi9\n"; 
     }
 
     return false;
@@ -42,8 +71,9 @@ bool isDead( std::vector<char> spaces, std::vector<char> spaces_mines, int num_r
             return true;
         }
         else {
-            dfs(spaces_mines, user_move, rows);
+            searchAmountOfMines(spaces_mines, user_move, rows, num_rows);
             points = addPoint(points);
+            break;
         }
     }
 
