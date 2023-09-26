@@ -4,22 +4,23 @@
 #include <random>
 #include <cmath>
 
+
 void drawBoard( std::vector<char> spaces, int rows, int num_rows ) {
     // Outputs the board after a turn
     int rows_factor = (rows - 1);
-    char row_counter = 'A';
     char col_counter = 'A';
+    char row_counter = 'a';
     
 
     std::cout << "  "; // Output the 'dead' space(where the row and column overlap)
     for ( int i = 0; i < rows; i++ ) {
-        std::cout << row_counter << "  ";
-        row_counter++;
+        std::cout << col_counter << "  ";
+        col_counter++;
     }
     std::cout << "\n";
     
-    std::cout << col_counter << " ";
-    col_counter++;
+    std::cout << row_counter << " ";
+    row_counter++;
     for ( int i = 0; i < num_rows; i++ ) {
         if ( i <= ((rows * (rows - rows_factor)) - 1) ) {
             std::cout << spaces[i] << "  ";
@@ -27,11 +28,12 @@ void drawBoard( std::vector<char> spaces, int rows, int num_rows ) {
         else { // Output new line with the statement that failed to output on the previous line
             rows_factor--;
             std::cout << "\n";
-            std::cout << col_counter << " ";
+            std::cout << row_counter << " ";
             std::cout << spaces[i] << "  ";
-            col_counter++;
+            row_counter++;
         }
     }
+    std::cout << std::endl;
 }
 
 
