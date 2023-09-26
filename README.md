@@ -1,4 +1,4 @@
-# C--_Minesweeper
+# Cplusplus_Minesweeper
 
 C++ bare-bones minesweeper game WIP
 
