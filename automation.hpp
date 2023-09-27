@@ -81,6 +81,12 @@ bool isDead( std::vector<char> spaces, std::vector<char> spaces_mines, int num_r
 }
 
 
+bool checkWin() {
+
+    return false;
+}
+
+
 int moveToInt( std::string space_to_move, int rows ) {
     char starting_char = 'A';
     int user_move;

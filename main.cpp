@@ -23,9 +23,13 @@ int main() {
     do {
         drawBoard(spaces, rows, num_rows);
         user_move = getUserMove(rows);
+        if ( checkWin() ) {
+            std::cout << "You win\n";
+            return 0;
+        }
     } while( !isDead(spaces, spaces_mines, num_rows, points, user_move, rows) );
 
     if ( isDead(spaces, spaces_mines, num_rows, points, user_move, rows) ) {
-        std::cout << "You lost";
+        std::cout << "You lost\n";
     }
 }
