@@ -9,11 +9,11 @@ int main() {
     int num_rows = pow(rows, 2);
     int user_move;
 
-    std::vector<std::string> spaces; // array that holds what the user will actually see
+    std::vector<char> spaces; // array that holds what the user will actually see
     std::vector<char> spaces_mines; // array that holds where the mines are
 
     for ( int i = 0; i < num_rows; i++ ) {
-        spaces.push_back(" ");
+        spaces.push_back(' ');
         spaces_mines.push_back(' ');
     }
 
@@ -21,8 +21,9 @@ int main() {
     int points = 0;
     createMines(spaces_mines, rows, num_rows);
     do {
+        drawBoard(spaces_mines, rows, num_rows);
         drawBoard(spaces, rows, num_rows);
-        user_move = getUserMove(rows);
+        user_move = getUserMove(rows, spaces);
         if ( checkWin() ) {
             std::cout << "You win\n";
             return 0;
@@ -31,5 +32,14 @@ int main() {
 
     if ( isDead(spaces, spaces_mines, num_rows, points, user_move, rows) ) {
         std::cout << "You lost\n";
+        switch(points) {
+            case 1:
+                std::cout << "You had " << points << " point!\n";
+                break;
+            default:
+                std::cout << "You had " << points << " points!\n";
+        }
     }
+
+    return 0;
 }

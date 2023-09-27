@@ -5,7 +5,7 @@
 #include <cmath>
 
 
-void drawBoard( std::vector<std::string> spaces, int rows, int num_rows ) {
+void drawBoard( std::vector<char> spaces, int rows, int num_rows ) {
     // Outputs the board after a turn
     int rows_factor = (rows - 1);
     char col_counter = 'A';
@@ -35,7 +35,6 @@ void drawBoard( std::vector<std::string> spaces, int rows, int num_rows ) {
     }
     std::cout << std::endl;
 }
-
 
 void createMines(std::vector<char> &spaces_mines, int rows, int num_rows ) {
     // Function that will randomly create mines in the mine array
