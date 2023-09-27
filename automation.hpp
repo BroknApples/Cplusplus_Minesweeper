@@ -22,60 +22,91 @@ int intro() {
 }
 
 
-bool searchAmountOfMines( std::vector<char> spaces_mines, int user_move, int rows, int num_rows ) {
+int searchAmountOfMines( std::vector<char> spaces_mines, int user_move, int rows, int num_rows ) {
     int user_move_p1 = user_move + 1;
+    int num_of_mines = 0;
 
     // Check corners
     if      ( user_move_p1 == rows ) { // Check top right corner
-        std::cout << "hi1\n";
+        if ( spaces_mines[(rows * 2) - 1] == '#' ) num_of_mines++;
+        if ( spaces_mines[(rows - 1) - 1] == '#' ) num_of_mines++;
+        if ( spaces_mines[(rows - 1) - 2] == '#' ) num_of_mines++;
     }
     else if ( user_move_p1 == num_rows ) { // Check bottom right corner
-        std::cout << "hi2\n";
+        if ( spaces_mines[(num_rows - 1) - 1] == '#' ) num_of_mines++;
+        if ( spaces_mines[(num_rows - rows) - 1] == '#' ) num_of_mines++;
+        if ( spaces_mines[(num_rows - rows) - 2] == '#' ) num_of_mines++;
     }
     else if ( user_move_p1 == (rows / rows) ) { // Check top left corner
-        std::cout << "hi3\n";
+        if ( spaces_mines[1] == '#' ) num_of_mines++;
+        if ( spaces_mines[rows == '#' ] ) num_of_mines++;
+        if ( spaces_mines[(rows + 1) == '#' ] ) num_of_mines++;
     }
     else if ( (user_move_p1 - 1) == (num_rows - rows) ) { // Check bottom left corner
-        std::cout << "hi4\n";
+        if ( spaces_mines[(num_rows - rows)] == '#') num_of_mines++;
+        if ( spaces_mines[(num_rows - (rows * 2))] == '#') num_of_mines++;
+        if ( spaces_mines[(num_rows - (rows * 2)) - 1] == '#') num_of_mines++;
     } 
     // Start checking for edges
     else if ( user_move_p1 % rows == 0 ) { // Check if it is on the right most edge
-        std::cout << "hi5\n";
+        if ( spaces_mines[user_move - 1] == '#') num_of_mines++;
+        if ( spaces_mines[(user_move - rows)] == '#') num_of_mines++;
+        if ( spaces_mines[(user_move - rows) - 1] == '#') num_of_mines++;
+        if ( spaces_mines[(user_move + rows)] == '#') num_of_mines++;
+        if ( spaces_mines[(user_move + rows) - 1] == '#') num_of_mines++;
     }
     else if ( (user_move_p1 - 1) % rows == 0 ) { // Check if it is on the left most edge
-        std::cout << "hi6\n";
+        if ( spaces_mines[user_move + 1] == '#') num_of_mines++;
+        if ( spaces_mines[(user_move - rows)] == '#') num_of_mines++;
+        if ( spaces_mines[(user_move - rows) + 1] == '#') num_of_mines++;
+        if ( spaces_mines[(user_move + rows)] == '#') num_of_mines++;
+        if ( spaces_mines[(user_move + rows) + 1] == '#') num_of_mines++;
     }
     else if ( user_move_p1 <= rows ) { // Check if it is on the top most edge
-        std::cout << "hi7\n";
+        if ( spaces_mines[user_move - 1] == '#') num_of_mines++;
+        if ( spaces_mines[user_move + 1] == '#') num_of_mines++;
+        if (spaces_mines[(user_move + rows) == '#']) num_of_mines++;
+        if (spaces_mines[(user_move + rows) + 1 == '#']) num_of_mines++;
+        if (spaces_mines[(user_move + rows) - 1 == '#']) num_of_mines++;
     }
     else if (user_move_p1 >= (num_rows - rows) ) { // Check if it is on the bottom most edge
-        std::cout << "hi8\n";
+        if ( spaces_mines[user_move - 1] == '#') num_of_mines++;
+        if ( spaces_mines[user_move + 1] == '#') num_of_mines++;
+        if (spaces_mines[(user_move - rows) == '#']) num_of_mines++;
+        if (spaces_mines[(user_move - rows) + 1 == '#']) num_of_mines++;
+        if (spaces_mines[(user_move - rows) - 1 == '#']) num_of_mines++;
     }
     else { // Anything that's not on the edge
-        std::cout << "hi9\n"; 
+        if ( spaces_mines[user_move - 1] == '#') num_of_mines++;
+        if ( spaces_mines[user_move + 1] == '#') num_of_mines++;
+        if (spaces_mines[(user_move - rows) == '#']) num_of_mines++;
+        if (spaces_mines[(user_move - rows) + 1 == '#']) num_of_mines++;
+        if (spaces_mines[(user_move - rows) - 1 == '#']) num_of_mines++;
+        if (spaces_mines[(user_move + rows) == '#']) num_of_mines++;
+        if (spaces_mines[(user_move + rows) + 1 == '#']) num_of_mines++;
+        if (spaces_mines[(user_move + rows) - 1 == '#']) num_of_mines++;
     }
 
-    return false;
+    return num_of_mines;
 }
 
 
-int addPoint( int points ) {
-    return points + 1;
-}
-
-
-bool isDead( std::vector<char> spaces, std::vector<char> spaces_mines, int num_rows, int &points, int user_move, int rows ) {
+bool isDead( std::vector<std::string> &spaces, std::vector<char> spaces_mines, int num_rows, int &points, int user_move, int rows ) {
     // Checks if the user has hit a mine
+    int mine_count = 0;
+
     for (int i = 0; i < num_rows; i++) {
-        if (spaces[i] == 'X' && spaces_mines[i] == '#') {
+        if (spaces[i] == "X" && spaces_mines[i] == '#') {
             return true;
         }
         else {
-            searchAmountOfMines(spaces_mines, user_move, rows, num_rows);
-            points = addPoint(points);
+            mine_count = searchAmountOfMines(spaces_mines, user_move, rows, num_rows);
+            points++;
             break;
         }
     }
+
+    spaces[user_move] = mine_count;
 
     return false;
 }
@@ -119,8 +150,11 @@ int getUserMove( int rows ) {
     std::string space_to_move;
     int user_move;
 
-    std::cout << "Enter your move by letters(Aa, Gc, Be, etc.): ";
-    std::cin >> space_to_move;
+    do {
+        std::cout << "Enter your move by letters(Aa, Gc, Be, etc.): ";
+        std::cin >> space_to_move;
+    } while ( (space_to_move[0] > (65 + rows) || space_to_move[1] > (97 + rows)) 
+            || (space_to_move[0] < 65 || space_to_move[1] < 97) );
 
     user_move = moveToInt(space_to_move, rows);
 

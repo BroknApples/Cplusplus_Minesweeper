@@ -9,17 +9,17 @@ int main() {
     int num_rows = pow(rows, 2);
     int user_move;
 
-    std::vector<char> spaces; // array that holds what the user will actually see
+    std::vector<std::string> spaces; // array that holds what the user will actually see
     std::vector<char> spaces_mines; // array that holds where the mines are
 
     for ( int i = 0; i < num_rows; i++ ) {
-        spaces.push_back(' ');
+        spaces.push_back(" ");
         spaces_mines.push_back(' ');
     }
 
     // Start game
     int points = 0;
-    createMines(spaces, rows, num_rows);
+    createMines(spaces_mines, rows, num_rows);
     do {
         drawBoard(spaces, rows, num_rows);
         user_move = getUserMove(rows);
