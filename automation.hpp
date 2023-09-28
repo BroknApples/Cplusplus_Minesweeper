@@ -217,8 +217,6 @@ int getUserMove( int rows, std::vector<char> &spaces ) {
             || (space_to_move[0] < 65 || space_to_move[1] < 97) || (space_to_move.length() > 2) );
 
     user_move = moveToInt(space_to_move, rows);
-    if ( spaces[user_move] == ' ') spaces[user_move] = 'X';
-    else getUserMove(rows, spaces);
 
     return user_move;
 }

@@ -23,12 +23,19 @@ int main() {
     createMines(spaces_mines, rows, num_rows);
     do {
         drawBoard(spaces, rows, num_rows);
-        user_move = getUserMove(rows, spaces);
+
+        do {
+            user_move = getUserMove(rows, spaces);
+        } while (spaces[user_move] != ' ');
+        spaces[user_move] = 'X';
+
         if ( checkWin(spaces, spaces_mines, num_rows, bool_spaces) ) {
             isDead(spaces, spaces_mines, num_rows, points, user_move, rows);
             mergeBoards(spaces, spaces_mines, num_rows);
             drawBoard(spaces, rows, num_rows);
+
             std::cout << "You win!\nYou safely marked " << points << " spaces!\n";
+            
             drawGameSpaceEnd(rows);
             return 0;
         }
