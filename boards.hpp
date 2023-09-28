@@ -33,8 +33,7 @@ void drawBoard( std::vector<char> spaces, int rows, int num_rows ) {
             row_counter++;
         }
     }
-    std::cout << spaces[num_rows - 1]; // output last space in array because the function 
-    std::cout << std::endl;            // randomly stopped outpputing the last element
+    std::cout << std::endl;
 }
 
 
@@ -62,4 +61,11 @@ void createMines(std::vector<char> &spaces_mines, int rows, int num_rows ) {
         i++;
     }
 
+}
+
+
+void mergeBoards( std::vector<char> &spaces, std::vector<char> &spaces_mines, int num_rows ) {
+    for ( int i = 0; i < num_rows; i++ ) {
+        if ( spaces_mines[i] == '#' ) spaces[i] = 'X';
+    }
 }

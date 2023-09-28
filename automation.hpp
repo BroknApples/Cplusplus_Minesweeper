@@ -2,6 +2,31 @@
 #include <vector>
 #include <sstream>
 
+
+void drawGameSpaceHead(int rows) { // Creates an area for the gamespace
+        for ( int i = 0; i < ((rows  - 4) + (rows / 4)); i++ ) {
+        std::cout << "*";
+    }
+    std::cout << "WELCOME TO MINESWEEPER";
+     for ( int i = 0; i < ((rows  - 4) + (rows / 4)); i++ ) {
+        std::cout << "*";
+    }
+    std::cout << std::endl;
+}
+
+void drawGameSpaceEnd(int rows) {
+    for ( int i = 0; i < ((rows  - 4) + (rows / 4)); i++ ) {
+        std::cout << "*";
+    }
+     for ( int i = 0; i < ((rows  - 4) + (rows / 4)); i++ ) {
+        std::cout << "*";
+    }
+    for (int i = 1; i <= 22; i++) {
+        std::cout << "*";
+    }
+}
+
+
 int intro() {
     // Returns number of spaces utilized in the game
     int rows;
@@ -11,14 +36,8 @@ int intro() {
     } while( rows < 5 || rows > 26 );
 
     // Output a gamespace header
-    for ( int i = 0; i < ((rows  - 4) + (rows / 4)); i++ ) {
-        std::cout << "*";
-    }
-    std::cout << "WELCOME TO MINESWEEPER";
-     for ( int i = 0; i < ((rows  - 4) + (rows / 4)); i++ ) {
-        std::cout << "*";
-    }
-    std::cout << std::endl;
+    drawGameSpaceHead(rows);
+
     return rows;
 }
 
@@ -38,12 +57,12 @@ int searchAmountOfMines( std::vector<char> spaces_mines, int user_move, int rows
         if ( spaces_mines[(num_rows - rows) - 1] == '#' ) num_of_mines++;
         if ( spaces_mines[(num_rows - rows) - 2] == '#' ) num_of_mines++;
     }
-    else if ( user_move_p1 == (rows / rows) ) { // Check top left corner
+    else if ( user_move_p1 == 0 ) { // Check top left corner
         if ( spaces_mines[1] == '#' ) num_of_mines++;
         if ( spaces_mines[rows] == '#' ) num_of_mines++;
         if ( spaces_mines[rows + 1] == '#' ) num_of_mines++;
     }
-    else if ( (user_move_p1 - 1) == (num_rows - rows) ) { // Check bottom left corner
+    else if ( user_move == (num_rows - rows) ) { // Check bottom left corner
         if ( spaces_mines[(num_rows - rows) + 1] == '#' ) num_of_mines++;
         if ( spaces_mines[(num_rows - (rows * 2))] == '#' ) num_of_mines++;
         if ( spaces_mines[(num_rows - (rows * 2)) + 1] == '#' ) num_of_mines++;
@@ -51,16 +70,16 @@ int searchAmountOfMines( std::vector<char> spaces_mines, int user_move, int rows
     // Start checking for edges
     else if ( user_move_p1 % rows == 0 ) { // Check if it is on the right most edge
         if ( spaces_mines[user_move - 1] == '#' ) num_of_mines++;
-        if ( spaces_mines[(user_move - rows)] == '#' ) num_of_mines++;
+        if ( spaces_mines[user_move - rows] == '#' ) num_of_mines++;
         if ( spaces_mines[(user_move - rows) - 1] == '#')  num_of_mines++;
-        if ( spaces_mines[(user_move + rows)] == '#') num_of_mines++;
+        if ( spaces_mines[user_move + rows] == '#') num_of_mines++;
         if ( spaces_mines[(user_move + rows) - 1] == '#' ) num_of_mines++;
     }
     else if ( (user_move_p1 - 1) % rows == 0 ) { // Check if it is on the left most edge
         if ( spaces_mines[user_move + 1] == '#' ) num_of_mines++;
-        if ( spaces_mines[(user_move - rows)] == '#' ) num_of_mines++;
+        if ( spaces_mines[user_move - rows] == '#' ) num_of_mines++;
         if ( spaces_mines[(user_move - rows) + 1] == '#')  num_of_mines++;
-        if ( spaces_mines[(user_move + rows)] == '#' ) num_of_mines++;
+        if ( spaces_mines[user_move + rows] == '#' ) num_of_mines++;
         if ( spaces_mines[(user_move + rows) + 1] == '#' ) num_of_mines++;
     }
     else if ( user_move_p1 <= rows ) { // Check if it is on the top most edge
@@ -94,7 +113,7 @@ int searchAmountOfMines( std::vector<char> spaces_mines, int user_move, int rows
 
 bool isDead( std::vector<char> &spaces, std::vector<char> spaces_mines, int num_rows, int &points, int user_move, int rows ) {
     // Checks if the user has hit a mine
-    int mine_count = 0;
+    int mine_count;
 
     for (int i = 0; i < num_rows; i++) {
         if (spaces[i] == 'X' && spaces_mines[i] == '#') {
@@ -160,13 +179,14 @@ bool checkWin( std::vector<char> spaces, std::vector<char> spaces_mines, int num
 
 
 int moveToInt( std::string space_to_move, int rows ) {
-    char starting_char = 'A';
+    char starting_char;
     int user_move;
-    int check_col = 1;
-    int check_row = 1;
+    int check_col;
+    int check_row;
 
     // Check the column the user inputted
-    for ( int i = 1; i <= rows; i++ ) {
+    starting_char = 'A';
+    for ( int i = 1; i <= rows; ++i ) {
         check_col = i;
         if ( space_to_move[0] == starting_char ) break;
         else starting_char++;
@@ -174,7 +194,7 @@ int moveToInt( std::string space_to_move, int rows ) {
 
     // Check the row the user inputted
     starting_char = 'a';
-    for ( int i = 1; i <= rows; i++ ) {
+    for ( int i = 1; i <= rows; ++i ) {
         check_row = i;
         if  ( space_to_move[1] == starting_char ) break;
         else starting_char++;
@@ -194,10 +214,11 @@ int getUserMove( int rows, std::vector<char> &spaces ) {
         std::cout << "Enter your move by letters(Aa, Gc, Be, etc.): ";
         std::cin >> space_to_move;
     } while ( (space_to_move[0] > (65 + rows) || space_to_move[1] > (97 + rows)) 
-            || (space_to_move[0] < 65 || space_to_move[1] < 97) );
+            || (space_to_move[0] < 65 || space_to_move[1] < 97) || (space_to_move.length() > 2) );
 
     user_move = moveToInt(space_to_move, rows);
-    spaces[user_move] = 'X';
+    if ( spaces[user_move] == ' ') spaces[user_move] = 'X';
+    else getUserMove(rows, spaces);
 
     return user_move;
 }
