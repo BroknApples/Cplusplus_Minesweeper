@@ -22,7 +22,6 @@ int main() {
     int points = 0;
     createMines(spaces_mines, rows, num_rows);
     do {
-        drawBoard(spaces_mines, rows, num_rows);
         drawBoard(spaces, rows, num_rows);
         user_move = getUserMove(rows, spaces);
         if ( checkWin(spaces, spaces_mines, num_rows, bool_spaces) ) {
