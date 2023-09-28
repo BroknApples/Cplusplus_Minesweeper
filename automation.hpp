@@ -129,10 +129,10 @@ bool isDead( std::vector<char> &spaces, std::vector<char> spaces_mines, int num_
             mine_count_char = '6';
             break;
         case 7:
-            mine_count_char = '6';
+            mine_count_char = '7';
             break;
         case 8:
-            mine_count_char = '6';
+            mine_count_char = '8';
             break;
     default:
         std::cout << "Error!" << std::endl;
@@ -145,9 +145,17 @@ bool isDead( std::vector<char> &spaces, std::vector<char> spaces_mines, int num_
 }
 
 
-bool checkWin() {
+bool checkWin( std::vector<char> spaces, std::vector<char> spaces_mines, int num_rows, std::vector<bool> &bool_spaces )  {
+    for ( int i = 0; i < num_rows; i++ ) { // use array of bools to check if game is complete
+        if ( spaces_mines[i] == '#' ) bool_spaces[i] = true;
+        if ( spaces[i] != ' ' ) bool_spaces[i] = true;
+    }
 
-    return false;
+    for ( int i = 0; i < num_rows; i++ ) {
+        if ( bool_spaces[i] == false ) return false; // returns false if even one is not true
+    }
+
+    return true;
 }
 
 

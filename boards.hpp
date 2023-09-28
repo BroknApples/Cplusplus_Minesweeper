@@ -33,8 +33,10 @@ void drawBoard( std::vector<char> spaces, int rows, int num_rows ) {
             row_counter++;
         }
     }
-    std::cout << std::endl;
+    std::cout << spaces[num_rows - 1]; // output last space in array because the function 
+    std::cout << std::endl;            // randomly stopped outpputing the last element
 }
+
 
 void createMines(std::vector<char> &spaces_mines, int rows, int num_rows ) {
     // Function that will randomly create mines in the mine array

@@ -11,10 +11,12 @@ int main() {
 
     std::vector<char> spaces; // array that holds what the user will actually see
     std::vector<char> spaces_mines; // array that holds where the mines are
+    std::vector<bool> bool_spaces; // array that holds the conditions to win
 
     for ( int i = 0; i < num_rows; i++ ) {
         spaces.push_back(' ');
         spaces_mines.push_back(' ');
+        bool_spaces.push_back(false);
     }
 
     // Start game
@@ -24,8 +26,8 @@ int main() {
         drawBoard(spaces_mines, rows, num_rows);
         drawBoard(spaces, rows, num_rows);
         user_move = getUserMove(rows, spaces);
-        if ( checkWin() ) {
-            std::cout << "You win\n";
+        if ( checkWin(spaces, spaces_mines, num_rows, bool_spaces) ) {
+            std::cout << "You win!\nYou safely marked " << points << " spaces!\n";
             return 0;
         }
     } while( !isDead(spaces, spaces_mines, num_rows, points, user_move, rows) );
