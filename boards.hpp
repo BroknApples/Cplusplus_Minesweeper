@@ -60,11 +60,11 @@ void createMines(std::vector<char> &spaces_mines, int rows, int num_rows ) {
 
         i++;
     }
-
 }
 
 
 void mergeBoards( std::vector<char> &spaces, std::vector<char> &spaces_mines, int num_rows ) {
+    // add the mines to the original board when finished
     for ( int i = 0; i < num_rows; i++ ) {
         if ( spaces_mines[i] == '#' ) spaces[i] = 'X';
     }

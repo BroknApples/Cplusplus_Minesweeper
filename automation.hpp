@@ -38,6 +38,7 @@ int intro() {
     // Output a gamespace header
     drawGameSpaceHead(rows);
 
+
     return rows;
 }
 
@@ -107,6 +108,7 @@ int searchAmountOfMines( std::vector<char> spaces_mines, int user_move, int rows
         if ( spaces_mines[(user_move + rows) - 1] == '#' ) num_of_mines++;
     }
 
+
     return num_of_mines;
 }
 
@@ -160,6 +162,7 @@ bool isDead( std::vector<char> &spaces, std::vector<char> spaces_mines, int num_
 
     spaces[user_move] = mine_count_char;
 
+
     return false;
 }
 
@@ -173,6 +176,7 @@ bool checkWin( std::vector<char> spaces, std::vector<char> spaces_mines, int num
     for ( int i = 0; i < num_rows; i++ ) {
         if ( bool_spaces[i] == false ) return false; // returns false if even one is not true
     }
+
 
     return true;
 }
@@ -202,6 +206,7 @@ int moveToInt( std::string space_to_move, int rows ) {
 
     user_move = ( (check_row * rows) - (rows - check_col) ) - 1;
 
+
     return user_move;
 }
 
@@ -213,10 +218,11 @@ int getUserMove( int rows, std::vector<char> &spaces ) {
     do {
         std::cout << "Enter your move by letters(Aa, Gc, Be, etc.): ";
         std::cin >> space_to_move;
-    } while ( (space_to_move[0] > (65 + rows) || space_to_move[1] > (97 + rows)) 
-            || (space_to_move[0] < 65 || space_to_move[1] < 97) || (space_to_move.length() > 2) );
+    } while ( (space_to_move[0] > (65 + rows) || space_to_move[1] > (97 + rows)) || 
+    (space_to_move[0] < 65 || space_to_move[1] < 97) || (space_to_move.length() > 2) );
 
     user_move = moveToInt(space_to_move, rows);
+
 
     return user_move;
 }
